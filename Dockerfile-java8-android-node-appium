@@ -1,0 +1,19 @@
+FROM robinluo/java8-android-node
+
+# Switch over to the build user.
+USER build
+
+# Install appium
+RUN set -x && \
+    npm --loglevel http \
+    install -g gulp appium appium-doctor grunt grunt-cli mocha
+
+RUN which appium
+RUN which appium-doctor
+RUN which gulp
+
+# Switch back to root
+USER root
+
+# Build command
+# docker build -f Dockerfile-java8-android-node-appium -t robinluo/java8-android-node-appium .

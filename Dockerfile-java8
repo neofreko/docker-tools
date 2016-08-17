@@ -1,0 +1,26 @@
+FROM ubuntu:16.04
+
+# Install openjdk 8 and basic components
+RUN export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && \
+    apt-get install -y openjdk-8-jdk git curl wget zip unzip gawk python perl ruby net-tools make sudo build-essential && \
+    apt-get install -y ant maven gradle && \
+    apt-get clean && \
+    rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN set -x && \
+    useradd -m -s /bin/bash build && \
+    echo "build:build" | chpasswd && \
+    adduser build sudo && \
+    chown build /opt
+
+# Setup environment
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+ENV PATH ${PATH}:${JAVA_HOME}/bin
+
+# Check command
+RUN which java
+RUN which javac
+
+# Build command
+# docker build -f Dockerfile-java8 -t robinluo/java8 .

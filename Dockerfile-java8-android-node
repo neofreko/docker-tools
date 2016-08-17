@@ -1,0 +1,23 @@
+FROM robinluo/java8-android
+
+# Switch over to the build user.
+USER build
+
+# Set node installation home
+ENV N_PREFIX /opt/n
+ENV PATH ${PATH}:${N_PREFIX}/bin
+
+# Install n, node, npm
+RUN set -x && \
+    curl -L https://git.io/n-install | bash -s -- -y latest && \
+    n lts && n latest
+
+# Switch back to root
+USER root
+
+# Check command
+RUN which node
+RUN which npm
+
+# Build command
+# docker build -f Dockerfile-java8-android-node -t robinluo/java8-android-node .
