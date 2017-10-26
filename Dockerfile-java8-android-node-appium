@@ -1,4 +1,4 @@
-FROM robinluo/java8-android-node
+FROM neofreko/java8-android-node
 
 # Switch over to the build user.
 USER build

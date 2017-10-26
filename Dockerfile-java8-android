@@ -1,4 +1,4 @@
-FROM robinluo/java8
+FROM neofreko/java8
 
 # Install android SDK
 # No need lib32 after android platform-tools 24.+
