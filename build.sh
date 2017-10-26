@@ -6,7 +6,7 @@
 #########################################################################
 #!/bin/bash
 
-docker build -f Dockerfile-java8 -t robinluo/java8 . && \
-docker build -f Dockerfile-java8-android -t robinluo/java8-android . && \
-docker build -f Dockerfile-java8-android-node -t robinluo/java8-android-node . && \
-docker build -f Dockerfile-java8-android-node-appium -t robinluo/java8-android-node-appium .
+docker build -f Dockerfile-java8 -t neofreko/java8 . && \
+docker build -f Dockerfile-java8-android -t neofreko/java8-android . && \
+docker build -f Dockerfile-java8-android-node -t neofreko/java8-android-node . && \
+docker build -f Dockerfile-java8-android-node-appium -t neofreko/java8-android-node-appium .
