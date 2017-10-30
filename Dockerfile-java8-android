@@ -1,19 +1,22 @@
 FROM neofreko/java8
 
 # Install android SDK
-# No need lib32 after android platform-tools 24.+
-RUN export DEBIAN_FRONTEND=noninteractive && \
-    apt-get update && \
-    wget --progress=dot:giga -O /opt/android-sdk.tgz --quiet http://dl.google.com/android/android-sdk_r25.2.5-linux.tgz && \
-    tar xzf /opt/android-sdk.tgz -C /opt && \
-    rm -rf /opt/android-sdk.tgz && \
-    echo y | /opt/android-sdk-linux/tools/android update sdk --all --filter platform-tools,tools,build-tools-26.0.2 --no-ui --force && \
-    apt-get clean && \
-    rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/* /opt/android-sdk-linux/temp/*
-
-# Setup environment
-ENV ANDROID_HOME /opt/android-sdk-linux
-ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/build-tools/26.0.2
+ENV ANDROID_DEV_HOME /android
+RUN mkdir -p ${ANDROID_DEV_HOME}
+ENV ANDROID_SDK_FILENAME tools_r25.2.5-linux.zip
+ENV ANDROID_SDK_URL https://dl.google.com/android/repository/${ANDROID_SDK_FILENAME}
+ENV ANDROID_API_LEVEL 25
+# Build Tools Version liable to change.
+ENV ANDROID_BUILD_TOOLS_VERSION 26.0.2
+ENV ANDROID_SDK_HOME ${ANDROID_DEV_HOME}/sdk
+ENV PATH ${PATH}:${ANDROID_SDK_HOME}/tools:${ANDROID_SDK_HOME}/tools/bin:${ANDROID_SDK_HOME}/platform-tools:${ANDROID_SDK_HOME}/build-tools/26.0.2
+RUN cd ${ANDROID_DEV_HOME} && \
+    wget -q ${ANDROID_SDK_URL} && \
+    unzip ${ANDROID_SDK_FILENAME} -d android-sdk-linux && \
+    rm ${ANDROID_SDK_FILENAME} && \
+    bash -c "ln -s ${ANDROID_DEV_HOME}/android-sdk-* ${ANDROID_SDK_HOME}" && \
+    echo y | android update sdk --no-ui -a --filter tools,platform-tools,android-${ANDROID_API_LEVEL},build-tools-${ANDROID_BUILD_TOOLS_VERSION} && \
+    echo y | sdkmanager "platform-tools" "platforms;android-${ANDROID_API_LEVEL}"
 
 # Check command
 RUN which adb
