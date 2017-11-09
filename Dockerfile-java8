@@ -3,7 +3,7 @@ FROM ubuntu:16.04
 # Install openjdk 8 and basic components
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
-    apt-get install -y openjdk-8-jdk git curl wget zip unzip gawk python perl ruby net-tools make sudo build-essential && \
+    apt-get install -y openjdk-8-jdk git curl wget zip unzip gawk python perl ruby ruby-dev net-tools make sudo build-essential && \
     apt-get install -y ant maven gradle libgconf-2-4 && \
     apt-get clean && \
     rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
